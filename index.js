@@ -1,6 +1,6 @@
 'use strict';
 
-// FROM and CMD are handled differently
+// FROM and CMD are handled separately
 var commandsRegex = /^(MAINTAINER|RUN|EXPOSE|ENV|ADD|ENTRYPOINT|VOLUME|USER|WORKDIR|ONBUILD)/i;
 
 var validate = function (dockerfile) {
@@ -29,10 +29,6 @@ var validate = function (dockerfile) {
 
   for (var i = 1; i < linesArr.length; i++) {
     var currentLine = linesArr[i].trim().toUpperCase();
-    if (!currentLine) {
-      // blank lines are valid
-      continue;
-    }
 
     if (currentLine.indexOf('CMD') === 0) {
       hasCmd = true;
