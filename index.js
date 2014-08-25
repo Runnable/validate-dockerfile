@@ -1,15 +1,18 @@
 'use strict';
 
-var commandsRegex = /^(FROM|MAINTAINER|RUN|CMD|EXPOSE|ENV|ADD|ENTRYPOINT|VOLUME|USER|WORKDIR|ONBUILD)/i;
+// FROM and CMD are handled differently
+var commandsRegex = /^(MAINTAINER|RUN|EXPOSE|ENV|ADD|ENTRYPOINT|VOLUME|USER|WORKDIR|ONBUILD)/i;
 
 var validate = function (dockerfile) {
   if (typeof dockerfile !== 'string') {
     return false;
   }
-  var linesArr = dockerfile.split('\n');
+  var linesArr = dockerfile.split('\n')
+    , hasFrom = false
+    , hasCmd = false;
 
   for (var i = 0; i < linesArr.length; i++) {
-    var currentLine = linesArr[i];
+    var currentLine = linesArr[i].trim().toUpperCase();
     if (!currentLine) {
       // blank lines are valid
       continue;
@@ -17,6 +20,16 @@ var validate = function (dockerfile) {
 
     if (currentLine[0] === '#') {
       // Comments are valid
+      continue;
+    }
+
+    if (currentLine.indexOf('FROM') === 0) {
+      hasFrom = true;
+      continue;
+    }
+
+    if (currentLine.indexOf('CMD') === 0) {
+      hasCmd = true;
       continue;
     }
 
@@ -28,7 +41,7 @@ var validate = function (dockerfile) {
     return false;
   }
 
-  return true;
+  return hasFrom && hasCmd;
 };
 
 module.exports = validate;
