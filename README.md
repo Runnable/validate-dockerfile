@@ -2,13 +2,6 @@
 
 NodeJS validator for dockerfiles.
 
-##Warning!
-
-This is not production-ready.  Yet to do:
-
- - Per-command validation
- - Further testing (say, actual unit tests and such)
-
 ##Installation
 
     npm install --save validate-dockerfile

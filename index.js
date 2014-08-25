@@ -1,7 +1,30 @@
 'use strict';
 
-// FROM and CMD are handled separately
-var commandsRegex = /^(MAINTAINER|RUN|EXPOSE|ENV|ADD|ENTRYPOINT|VOLUME|USER|WORKDIR|ONBUILD)/i;
+var commandsRegex = /^(CMD|FROM|MAINTAINER|RUN|EXPOSE|ENV|ADD|ENTRYPOINT|VOLUME|USER|WORKDIR|ONBUILD)\s/i;
+
+// Some regexes sourced from:
+//   http://stackoverflow.com/a/2821201/1216976
+//   http://stackoverflow.com/a/3809435/1216976
+var validParams = {
+  from: /^[A-z0-9.\/]*(:[A-z0-9.]*)?$/,
+  maintainer: /.*/,
+  expose: /^[0-9\s]*$/,
+  env: /^[a-zA-Z_]+[a-zA-Z0-9_]* .*$/,
+  user: /^[A-z0-9]$/,
+  run: /.*/,
+  cmd: /.*/,
+  onbuild: /.*/,
+  entrypoint: /.*/,
+  add: /^[A-z0-9\/_.-]*|[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/\/=]*) [A-z0-9\/_.-]*$/,
+  volume: /^(\[")?[A-z0-9\/_.-]*("\])?/,
+  workdir: /^[A-z0-9\/_.-]*$/
+};
+
+var validateLine = function (line) {
+  var command = commandsRegex.exec(line)[0].trim().toLowerCase();
+  var params = line.replace(commandsRegex, '');
+  return validParams[command].test(params);
+}
 
 var validate = function (dockerfile) {
   if (typeof dockerfile !== 'string') {
@@ -27,16 +50,15 @@ var validate = function (dockerfile) {
     return false;
   }
 
-  for (var i = 1; i < linesArr.length; i++) {
-    var currentLine = linesArr[i].trim().toUpperCase();
+  for (var i = 0; i < linesArr.length; i++) {
+    var currentLine = linesArr[i].trim();
 
-    if (currentLine.indexOf('CMD') === 0) {
+    if (currentLine.toUpperCase().indexOf('CMD') === 0) {
       hasCmd = true;
-      continue;
     }
 
-    if (commandsRegex.test(currentLine)) {
-      // Starts with a valid command
+    if (validateLine(currentLine)) {
+      // Command is valid and has valid params
       continue;
     }
 
