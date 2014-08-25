@@ -6,6 +6,15 @@
   "scripts": {
     "test": "node test/test.js"
   },
+  "homepage": "https://github.com/Runnable/validate-dockerfile",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Runnable/validate-dockerfile.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Runnable/validate-dockerfile/issues",
+    "email": "support@runnable.com"
+  },
   "keywords": [
     "docker",
     "dockerfile"
