@@ -22,4 +22,10 @@ This is not production-ready.  Yet to do:
     var isValid = validateDockerfile(dockerfile);
 
 
+##TODO
+
+Non-mission-critical stuff that'd be nice to have:
+
+ - Stream support
+
 Examples used in testing borrowed from https://github.com/kstaken/dockerfile-examples/tree/master/salt-minion.  Thanks!
