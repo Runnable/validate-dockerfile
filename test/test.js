@@ -15,7 +15,6 @@ find.eachfile(/./, path.join(__dirname, 'Dockerfiles'), function (file) {
     if (!isValid) {
       console.log(isValid);
       console.log(data);
-      // process.exit();
     }
   });
 });
