@@ -20,5 +20,6 @@ NodeJS validator for dockerfiles.
 Non-mission-critical stuff that'd be nice to have:
 
  - Stream support
+ - Set up binary for CLI use
 
 Examples used in testing borrowed from https://github.com/kstaken/dockerfile-examples/tree/master/salt-minion.  Thanks!

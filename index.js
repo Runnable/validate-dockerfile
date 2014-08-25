@@ -20,12 +20,6 @@ var validParams = {
   workdir: /^[A-z0-9\/_.-]*$/
 };
 
-var validateLine = function (line) {
-  var command = commandsRegex.exec(line)[0].trim().toLowerCase();
-  var params = line.replace(commandsRegex, '');
-  return validParams[command].test(params);
-}
-
 var validate = function (dockerfile) {
   if (typeof dockerfile !== 'string') {
     return false;
@@ -41,6 +35,17 @@ var validate = function (dockerfile) {
     return tLine && tLine[0] !== '#';
   });
 
+  var validateLine = function (line) {
+    line = line.trim();
+    var command = commandsRegex.exec(line)[0].trim().toLowerCase();
+    var params = line.replace(commandsRegex, '');
+    var validCommand = validParams[command].test(params);
+    if (validCommand && command === 'cmd') {
+      hasCmd = true;
+    }
+    return validCommand;
+  };
+
   if (!linesArr.length) {
     return false;
   }
@@ -50,22 +55,9 @@ var validate = function (dockerfile) {
     return false;
   }
 
-  for (var i = 0; i < linesArr.length; i++) {
-    var currentLine = linesArr[i].trim();
+  var validLines = linesArr.every(validateLine);
 
-    if (currentLine.toUpperCase().indexOf('CMD') === 0) {
-      hasCmd = true;
-    }
-
-    if (validateLine(currentLine)) {
-      // Command is valid and has valid params
-      continue;
-    }
-
-    return false;
-  }
-
-  return hasCmd;
+  return validLines && hasCmd;
 };
 
 module.exports = validate;
