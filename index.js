@@ -87,7 +87,7 @@ var validate = function (dockerfile) {
       valid: false,
       message: error,
       line: currentLine
-    }
+    };
   }
 
   if (!hasCmd) {

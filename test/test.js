@@ -117,5 +117,5 @@ describe('invalid dockerfiles', function () {
     result.should.have.property('valid', false);
     result.should.have.property('message', 'Invalid type');
     result.should.not.have.property('line');
-  })
+  });
 });
