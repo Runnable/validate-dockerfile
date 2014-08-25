@@ -12,9 +12,9 @@ EXPOSE 80
 
 ADD http://icecoder.net/download-zip?version=3.0beta /var/www/icecoder.zip
 
-RUN cd /var/www && unzip -o  icecoder.zip 
+RUN cd /var/www && unzip -o  icecoder.zip
 RUN cd /var/www && mv ICEco* icecoder
-RUN chown www-data -R /var/www/icecoder/lib /var/www/icecoder/backups /var/www/icecoder/test 
+RUN chown www-data -R /var/www/icecoder/lib /var/www/icecoder/backups /var/www/icecoder/test
 RUN mkdir /var/www/projects && chown -R www-data /var/www/projects && chmod g+s /var/www/projects
 
-CMD ["/usr/sbin/apache2", "-D", "FOREGROUND"] 
+CMD ["/usr/sbin/apache2", "-D", "FOREGROUND"]

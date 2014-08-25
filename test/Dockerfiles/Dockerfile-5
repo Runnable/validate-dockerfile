@@ -11,4 +11,4 @@ RUN apt-get -y install mongodb-10gen
 
 #RUN echo "" >> /etc/mongodb.conf
 
-CMD ["/usr/bin/mongod", "--config", "/etc/mongodb.conf"] 
+CMD ["/usr/bin/mongod", "--config", "/etc/mongodb.conf"]

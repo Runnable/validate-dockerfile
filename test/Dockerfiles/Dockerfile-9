@@ -18,12 +18,12 @@
 #
 #    Just don't run multiple containers using that at the same time.
 #
-# This image will be created to use an entrypoint. If you need to create a container 
+# This image will be created to use an entrypoint. If you need to create a container
 #   with a shell you can run:
 #
 #    docker run -i -t -entrypoint='/bin/bash' rethinkdb -i
 #
-#    Just keep in mind that's giving you a shell in a new instance of the image not 
+#    Just keep in mind that's giving you a shell in a new instance of the image not
 #    connecting you to an already running container.
 
 FROM ubuntu
@@ -40,4 +40,4 @@ EXPOSE 8100
 
 #ENTRYPOINT ["rethinkdb"]
 
-#CMD ["-d", "/var/rethinkdb/db", "--bind", "all", "--http-port", "8100"] 
+CMD ["-d", "/var/rethinkdb/db", "--bind", "all", "--http-port", "8100"]

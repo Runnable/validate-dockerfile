@@ -7,24 +7,30 @@ var validate = function (dockerfile) {
   if (typeof dockerfile !== 'string') {
     return false;
   }
-  var linesArr = dockerfile.split('\n')
-    , hasFrom = false
+
+  dockerfile = dockerfile.trim();
+
+  var hasFrom = false
     , hasCmd = false;
 
-  for (var i = 0; i < linesArr.length; i++) {
+  var linesArr = dockerfile.split('\n').filter(function (line) {
+    var tLine = line.trim();
+    return tLine && tLine[0] !== '#';
+  });
+
+  if (!linesArr.length) {
+    return false;
+  }
+
+  // First line should be FROM command
+  if (linesArr[0].toUpperCase().indexOf('FROM') !== 0) {
+    return false;
+  }
+
+  for (var i = 1; i < linesArr.length; i++) {
     var currentLine = linesArr[i].trim().toUpperCase();
     if (!currentLine) {
       // blank lines are valid
-      continue;
-    }
-
-    if (currentLine[0] === '#') {
-      // Comments are valid
-      continue;
-    }
-
-    if (currentLine.indexOf('FROM') === 0) {
-      hasFrom = true;
       continue;
     }
 
@@ -41,7 +47,7 @@ var validate = function (dockerfile) {
     return false;
   }
 
-  return hasFrom && hasCmd;
+  return hasCmd;
 };
 
 module.exports = validate;

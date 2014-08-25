@@ -11,6 +11,11 @@ find.eachfile(/./, path.join(__dirname, 'Dockerfiles'), function (file) {
     if (err) {
       throw err;
     }
-    console.log(validateDockerfile(data));
+    var isValid = validateDockerfile(data);
+    if (!isValid) {
+      console.log(isValid);
+      console.log(data);
+      // process.exit();
+    }
   });
 });
