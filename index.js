@@ -1,6 +1,6 @@
 'use strict';
 
-var commandsRegex = /^(CMD|FROM|MAINTAINER|RUN|EXPOSE|ENV|ADD|ENTRYPOINT|VOLUME|USER|WORKDIR|ONBUILD)\s/i;
+var instructionsRegex = /^(CMD|FROM|MAINTAINER|RUN|EXPOSE|ENV|ADD|ENTRYPOINT|VOLUME|USER|WORKDIR|ONBUILD)\s/i;
 
 // Some regexes sourced from:
 //   http://stackoverflow.com/a/2821201/1216976
@@ -37,10 +37,10 @@ var validate = function (dockerfile) {
 
   var validateLine = function (line) {
     line = line.trim();
-    var command = commandsRegex.exec(line)[0].trim().toLowerCase();
-    var params = line.replace(commandsRegex, '');
-    var validCommand = validParams[command].test(params);
-    if (validCommand && command === 'cmd') {
+    var instruction = instructionsRegex.exec(line)[0].trim().toLowerCase();
+    var params = line.replace(instructionsRegex, '');
+    var validCommand = validParams[instruction].test(params);
+    if (validCommand && instruction === 'cmd') {
       hasCmd = true;
     }
     return validCommand;
@@ -50,7 +50,7 @@ var validate = function (dockerfile) {
     return false;
   }
 
-  // First line should be FROM command
+  // First line should be FROM instruction
   if (linesArr[0].toUpperCase().indexOf('FROM') !== 0) {
     return false;
   }
