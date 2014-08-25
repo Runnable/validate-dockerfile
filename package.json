@@ -1,7 +1,7 @@
 {
   "name": "validate-dockerfile",
   "version": "1.0.1",
-  "description": "Does some basic validation of a Dockerfile",
+  "description": "Validates a Dockerfile",
   "main": "index.js",
   "scripts": {
     "test": "mocha"

@@ -50,7 +50,7 @@ The error messages that can be returned are:
   - `Invalid type`
     - You gave us something other than a string
 
-Line numbers will be returned on `Missing FROM` and `Invalid instruction` errors.  Line numbers are zero-based.
+Line numbers will be returned on `Missing FROM`, `Bad parameters` and `Invalid instruction` errors.  Line numbers are zero-based.
 
 ##TODO
 
