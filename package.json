@@ -4,7 +4,7 @@
   "description": "Does some basic validation of a Dockerfile",
   "main": "index.js",
   "scripts": {
-    "test": "node test/test.js"
+    "test": "mocha"
   },
   "homepage": "https://github.com/Runnable/validate-dockerfile",
   "repository": {
@@ -22,6 +22,8 @@
   "author": "Randall Koutnik <rkoutnik@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "find": "^0.1.7"
+    "callback-count": "^0.1.0",
+    "find": "^0.1.7",
+    "should": "^4.0.4"
   }
 }

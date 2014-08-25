@@ -5,8 +5,8 @@ var instructionsRegex = /^(CMD|FROM|MAINTAINER|RUN|EXPOSE|ENV|ADD|ENTRYPOINT|VOL
 // Some regexes sourced from:
 //   http://stackoverflow.com/a/2821201/1216976
 //   http://stackoverflow.com/a/3809435/1216976
-var validParams = {
-  from: /^[A-z0-9.\/]*(:[A-z0-9.]*)?$/,
+var paramsRegexes = {
+  from: /^[A-z0-9.\/-]*(:[A-z0-9.]*)?$/,
   maintainer: /.*/,
   expose: /^[0-9\s]*$/,
   env: /^[a-zA-Z_]+[a-zA-Z0-9_]* .*$/,
@@ -22,13 +22,18 @@ var validParams = {
 
 var validate = function (dockerfile) {
   if (typeof dockerfile !== 'string') {
-    return false;
+    return {
+      valid: false,
+      message: 'Invalid type'
+    };
   }
 
   dockerfile = dockerfile.trim();
 
   var hasFrom = false
-    , hasCmd = false;
+    , hasCmd = false
+    , currentLine = -1
+    , error;
 
   var linesArr = dockerfile.split('\n').filter(function (line) {
     var tLine = line.trim();
@@ -36,28 +41,65 @@ var validate = function (dockerfile) {
   });
 
   var validateLine = function (line) {
+    currentLine++;
     line = line.trim();
-    var instruction = instructionsRegex.exec(line)[0].trim().toLowerCase();
+
+    var instruction = instructionsRegex.exec(line);
+    if (!instruction) {
+      error = 'Invalid instruction';
+      return false;
+    }
+    instruction = instruction[0].trim().toLowerCase();
+
     var params = line.replace(instructionsRegex, '');
-    var validCommand = validParams[instruction].test(params);
-    if (validCommand && instruction === 'cmd') {
+    var validParams = paramsRegexes[instruction].test(params);
+
+    if (!validParams) {
+      error = 'Bad parameters';
+      return false;
+    }
+    if (instruction === 'cmd') {
       hasCmd = true;
     }
-    return validCommand;
+    return true;
   };
 
   if (!linesArr.length) {
-    return false;
+    return {
+      valid: false,
+      message: 'Empty dockerfile'
+    };
   }
 
   // First line should be FROM instruction
   if (linesArr[0].toUpperCase().indexOf('FROM') !== 0) {
-    return false;
+    return {
+      valid: false,
+      message: 'Missing FROM',
+      line: 0
+    };
   }
 
   var validLines = linesArr.every(validateLine);
 
-  return validLines && hasCmd;
+  if (!validLines) {
+    return {
+      valid: false,
+      message: error,
+      line: currentLine
+    }
+  }
+
+  if (!hasCmd) {
+    return {
+      valid: false,
+      message: 'Missing CMD'
+    };
+  }
+
+  return {
+    valid: true
+  };
 };
 
 module.exports = validate;
