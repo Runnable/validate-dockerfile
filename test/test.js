@@ -40,7 +40,7 @@ describe('invalid dockerfiles', function () {
     result.errors.should.be.an.Array;
     result.errors.length.should.eql(2);
     result.errors[0].should.have.property('message', 'Invalid instruction');
-    result.errors[0].should.have.property('line', 1);
+    result.errors[0].should.have.property('line', 2);
     result.errors[1].should.have.property('message', 'Missing CMD');
     result.errors[1].should.not.have.property('line');
   });
@@ -56,7 +56,7 @@ describe('invalid dockerfiles', function () {
     result.errors.should.be.an.Array;
     result.errors.length.should.eql(2);
     result.errors[0].should.have.property('message', 'Bad parameters');
-    result.errors[0].should.have.property('line', 0);
+    result.errors[0].should.have.property('line', 1);
     result.errors[1].should.have.property('message', 'Missing CMD');
     result.errors[1].should.not.have.property('line');
   });
@@ -72,9 +72,9 @@ describe('invalid dockerfiles', function () {
     result.errors.should.be.an.Array;
     result.errors.length.should.eql(3);
     result.errors[0].should.have.property('message', 'Missing FROM');
-    result.errors[0].should.have.property('line', 0);
+    result.errors[0].should.have.property('line', 1);
     result.errors[1].should.have.property('message', 'Invalid instruction');
-    result.errors[1].should.have.property('line', 0);
+    result.errors[1].should.have.property('line', 1);
     result.errors[2].should.have.property('message', 'Missing CMD');
     result.errors[2].should.not.have.property('line');
   });
@@ -176,7 +176,7 @@ describe('params', function () {
       result.errors.should.be.an.Array;
       result.errors.length.should.eql(1);
       result.errors[0].should.have.property('message', 'Bad parameters');
-      result.errors[0].should.have.property('line', 0);
+      result.errors[0].should.have.property('line', 1);
     });
   });
 
@@ -207,7 +207,7 @@ describe('params', function () {
       result.errors.should.be.an.Array;
       result.errors.length.should.eql(1);
       result.errors[0].should.have.property('message', 'Bad parameters');
-      result.errors[0].should.have.property('line', 1);
+      result.errors[0].should.have.property('line', 2);
     });
   });
 
@@ -252,7 +252,7 @@ describe('params', function () {
       result.errors.should.be.an.Array;
       result.errors.length.should.eql(1);
       result.errors[0].should.have.property('message', 'Bad parameters');
-      result.errors[0].should.have.property('line', 1);
+      result.errors[0].should.have.property('line', 2);
     });
   });
 
@@ -296,7 +296,7 @@ describe('params', function () {
       result.errors.should.be.an.Array;
       result.errors.length.should.eql(1);
       result.errors[0].should.have.property('message', 'Bad parameters');
-      result.errors[0].should.have.property('line', 1);
+      result.errors[0].should.have.property('line', 2);
     });
   });
 
@@ -327,7 +327,7 @@ describe('params', function () {
       result.errors.should.be.an.Array;
       result.errors.length.should.eql(1);
       result.errors[0].should.have.property('message', 'Bad parameters');
-      result.errors[0].should.have.property('line', 1);
+      result.errors[0].should.have.property('line', 2);
     });
 
     it('Should reject a username with > 31 characters', function () {
@@ -343,7 +343,7 @@ describe('params', function () {
       result.errors.should.be.an.Array;
       result.errors.length.should.eql(1);
       result.errors[0].should.have.property('message', 'Bad parameters');
-      result.errors[0].should.have.property('line', 1);
+      result.errors[0].should.have.property('line', 2);
     });
   });
 
@@ -393,7 +393,7 @@ describe('params', function () {
       result.errors.should.be.an.Array;
       result.errors.length.should.eql(1);
       result.errors[0].should.have.property('message', 'Bad parameters');
-      result.errors[0].should.have.property('line', 1);
+      result.errors[0].should.have.property('line', 2);
     });
 
     it('Rejects a ADD with one parameter', function () {
@@ -409,7 +409,7 @@ describe('params', function () {
       result.errors.should.be.an.Array;
       result.errors.length.should.eql(1);
       result.errors[0].should.have.property('message', 'Bad parameters');
-      result.errors[0].should.have.property('line', 1);
+      result.errors[0].should.have.property('line', 2);
     });
   });
 
@@ -453,7 +453,7 @@ describe('params', function () {
       result.errors.should.be.an.Array;
       result.errors.length.should.eql(1);
       result.errors[0].should.have.property('message', 'Bad parameters');
-      result.errors[0].should.have.property('line', 1);
+      result.errors[0].should.have.property('line', 2);
     });
   });
 

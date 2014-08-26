@@ -44,7 +44,7 @@ function validate(dockerfile) {
 
   var hasFrom = false;
   var hasCmd = false;
-  var currentLine = -1;
+  var currentLine = 0;
   var errors = [];
 
   var linesArr = dockerfile.split('\n').filter(function (line) {
@@ -93,7 +93,7 @@ function validate(dockerfile) {
   if (linesArr[0].toUpperCase().indexOf('FROM') !== 0) {
     errors.push({
       message: 'Missing FROM',
-      line: 0
+      line: 1
     });
   }
 

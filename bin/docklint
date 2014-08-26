@@ -34,7 +34,7 @@ validation.errors.forEach(function (error) {
   console.error(error.message);
 
   if (error.line) {
-    console.error('at line: ' + error.line);
+    console.error('at line ' + error.line);
   }
 });
 
