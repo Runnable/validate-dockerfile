@@ -3,6 +3,9 @@
   "version": "1.0.2",
   "description": "Validates a Dockerfile",
   "main": "index.js",
+  "bin": {
+    "docklint": "./bin/docklint"
+  },
   "scripts": {
     "test": "mocha"
   },

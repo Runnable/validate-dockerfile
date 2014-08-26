@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+
+'use strict';
+
+var fs = require('fs')
+  , path = require('path')
+  , validateDockerfile = require('../');
+
+var fileLocation, dockerfile;
+
+if (process.argv.length > 2) {
+  fileLocation = process.argv[process.argv.length - 1];
+} else {
+  fileLocation = path.join(process.cwd(), 'Dockerfile');
+}
+
+try {
+  dockerfile = fs.readFileSync(fileLocation, 'UTF-8');
+} catch (e) {
+  console.error('ERROR: Dockerfile not found');
+  process.exit(1);
+}
+
+
+var validation = validateDockerfile(dockerfile);
+
+if (validation.valid) {
+  console.log('Dockerfile looks good!');
+  process.exit();
+}
+
+console.error('VALIDATION FAILED');
+console.error(validation.message);
+
+if (validation.line) {
+  console.error('at line: ' + validation.line);
+}
+process.exit(1);

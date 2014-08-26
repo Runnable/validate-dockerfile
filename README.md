@@ -52,6 +52,14 @@ The error messages that can be returned are:
 
 Line numbers will be returned on `Missing FROM`, `Bad parameters` and `Invalid instruction` errors.  Line numbers are zero-based.
 
+
+##CLI
+
+Install validate-dockerfile globally (`npm install -g validate-dockerfile`) to gain access to `docklint`, the CLI wrapper for validate-dockerfile.
+
+`docklint` takes one parameter, the path to a Dockerfile.  If no path is given, it looks for a Dockerfile in the current directory.  It will exit with a code of `0` if the Dockerfile is legit, `1` otherwise.
+
+
 ##TODO
 
 Non-mission-critical stuff that'd be nice to have:
