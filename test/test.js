@@ -36,8 +36,13 @@ describe('invalid dockerfiles', function () {
 
     result.should.be.an.Object;
     result.should.have.property('valid', false);
-    result.should.have.property('message', 'Invalid instruction');
-    result.should.have.property('line', 1);
+    result.should.have.property('errors');
+    result.errors.should.be.an.Array;
+    result.errors.length.should.eql(2);
+    result.errors[0].should.have.property('message', 'Invalid instruction');
+    result.errors[0].should.have.property('line', 1);
+    result.errors[1].should.have.property('message', 'Missing CMD');
+    result.errors[1].should.not.have.property('line');
   });
 
   it('should complain about bad parameters', function () {
@@ -47,8 +52,13 @@ describe('invalid dockerfiles', function () {
 
     result.should.be.an.Object;
     result.should.have.property('valid', false);
-    result.should.have.property('message', 'Bad parameters');
-    result.should.have.property('line', 0);
+    result.should.have.property('errors');
+    result.errors.should.be.an.Array;
+    result.errors.length.should.eql(2);
+    result.errors[0].should.have.property('message', 'Bad parameters');
+    result.errors[0].should.have.property('line', 0);
+    result.errors[1].should.have.property('message', 'Missing CMD');
+    result.errors[1].should.not.have.property('line');
   });
 
   it('should flunk a file with no FROM', function () {
@@ -58,8 +68,15 @@ describe('invalid dockerfiles', function () {
 
     result.should.be.an.Object;
     result.should.have.property('valid', false);
-    result.should.have.property('message', 'Missing FROM');
-    result.should.have.property('line', 0);
+    result.should.have.property('errors');
+    result.errors.should.be.an.Array;
+    result.errors.length.should.eql(3);
+    result.errors[0].should.have.property('message', 'Missing FROM');
+    result.errors[0].should.have.property('line', 0);
+    result.errors[1].should.have.property('message', 'Invalid instruction');
+    result.errors[1].should.have.property('line', 0);
+    result.errors[2].should.have.property('message', 'Missing CMD');
+    result.errors[2].should.not.have.property('line');
   });
 
   it('should flunk a file with no CMD', function () {
@@ -69,8 +86,11 @@ describe('invalid dockerfiles', function () {
 
     result.should.be.an.Object;
     result.should.have.property('valid', false);
-    result.should.have.property('message', 'Missing CMD');
-    result.should.not.have.property('line');
+    result.should.have.property('errors');
+    result.errors.should.be.an.Array;
+    result.errors.length.should.eql(1);
+    result.errors[0].should.have.property('message', 'Missing CMD');
+    result.errors[0].should.not.have.property('line');
   });
 
   describe('empty', function () {
@@ -81,8 +101,11 @@ describe('invalid dockerfiles', function () {
 
       result.should.be.an.Object;
       result.should.have.property('valid', false);
-      result.should.have.property('message', 'Empty dockerfile');
-      result.should.not.have.property('line');
+      result.should.have.property('errors');
+      result.errors.should.be.an.Array;
+      result.errors.length.should.eql(1);
+      result.errors[0].should.have.property('message', 'Empty dockerfile');
+      result.errors[0].should.not.have.property('line');
     });
 
     it('rejects a dockerfile with only comments', function () {
@@ -92,8 +115,11 @@ describe('invalid dockerfiles', function () {
 
       result.should.be.an.Object;
       result.should.have.property('valid', false);
-      result.should.have.property('message', 'Empty dockerfile');
-      result.should.not.have.property('line');
+      result.should.have.property('errors');
+      result.errors.should.be.an.Array;
+      result.errors.length.should.eql(1);
+      result.errors[0].should.have.property('message', 'Empty dockerfile');
+      result.errors[0].should.not.have.property('line');
     });
 
     it('rejects a dockerfile with only newlines', function () {
@@ -103,8 +129,11 @@ describe('invalid dockerfiles', function () {
 
       result.should.be.an.Object;
       result.should.have.property('valid', false);
-      result.should.have.property('message', 'Empty dockerfile');
-      result.should.not.have.property('line');
+      result.should.have.property('errors');
+      result.errors.should.be.an.Array;
+      result.errors.length.should.eql(1);
+      result.errors[0].should.have.property('message', 'Empty dockerfile');
+      result.errors[0].should.not.have.property('line');
     });
   });
 
@@ -115,8 +144,11 @@ describe('invalid dockerfiles', function () {
 
     result.should.be.an.Object;
     result.should.have.property('valid', false);
-    result.should.have.property('message', 'Invalid type');
-    result.should.not.have.property('line');
+    result.should.have.property('errors');
+    result.errors.should.be.an.Array;
+    result.errors.length.should.eql(1);
+    result.errors[0].should.have.property('message', 'Invalid type');
+    result.errors[0].should.not.have.property('line');
   });
 });
 
@@ -140,8 +172,11 @@ describe('params', function () {
 
       result.should.be.an.Object;
       result.should.have.property('valid', false);
-      result.should.have.property('message', 'Bad parameters');
-      result.should.have.property('line', 0);
+      result.should.have.property('errors');
+      result.errors.should.be.an.Array;
+      result.errors.length.should.eql(1);
+      result.errors[0].should.have.property('message', 'Bad parameters');
+      result.errors[0].should.have.property('line', 0);
     });
   });
 
@@ -168,8 +203,11 @@ describe('params', function () {
 
       result.should.be.an.Object;
       result.should.have.property('valid', false);
-      result.should.have.property('message', 'Bad parameters');
-      result.should.have.property('line', 1);
+      result.should.have.property('errors');
+      result.errors.should.be.an.Array;
+      result.errors.length.should.eql(1);
+      result.errors[0].should.have.property('message', 'Bad parameters');
+      result.errors[0].should.have.property('line', 1);
     });
   });
 
@@ -210,8 +248,11 @@ describe('params', function () {
 
       result.should.be.an.Object;
       result.should.have.property('valid', false);
-      result.should.have.property('message', 'Bad parameters');
-      result.should.have.property('line', 1);
+      result.should.have.property('errors');
+      result.errors.should.be.an.Array;
+      result.errors.length.should.eql(1);
+      result.errors[0].should.have.property('message', 'Bad parameters');
+      result.errors[0].should.have.property('line', 1);
     });
   });
 
@@ -251,8 +292,11 @@ describe('params', function () {
 
       result.should.be.an.Object;
       result.should.have.property('valid', false);
-      result.should.have.property('message', 'Bad parameters');
-      result.should.have.property('line', 1);
+      result.should.have.property('errors');
+      result.errors.should.be.an.Array;
+      result.errors.length.should.eql(1);
+      result.errors[0].should.have.property('message', 'Bad parameters');
+      result.errors[0].should.have.property('line', 1);
     });
   });
 
@@ -279,8 +323,11 @@ describe('params', function () {
 
       result.should.be.an.Object;
       result.should.have.property('valid', false);
-      result.should.have.property('message', 'Bad parameters');
-      result.should.have.property('line', 1);
+      result.should.have.property('errors');
+      result.errors.should.be.an.Array;
+      result.errors.length.should.eql(1);
+      result.errors[0].should.have.property('message', 'Bad parameters');
+      result.errors[0].should.have.property('line', 1);
     });
 
     it('Should reject a username with > 31 characters', function () {
@@ -292,8 +339,11 @@ describe('params', function () {
 
       result.should.be.an.Object;
       result.should.have.property('valid', false);
-      result.should.have.property('message', 'Bad parameters');
-      result.should.have.property('line', 1);
+      result.should.have.property('errors');
+      result.errors.should.be.an.Array;
+      result.errors.length.should.eql(1);
+      result.errors[0].should.have.property('message', 'Bad parameters');
+      result.errors[0].should.have.property('line', 1);
     });
   });
 
@@ -339,8 +389,11 @@ describe('params', function () {
 
       result.should.be.an.Object;
       result.should.have.property('valid', false);
-      result.should.have.property('message', 'Bad parameters');
-      result.should.have.property('line', 1);
+      result.should.have.property('errors');
+      result.errors.should.be.an.Array;
+      result.errors.length.should.eql(1);
+      result.errors[0].should.have.property('message', 'Bad parameters');
+      result.errors[0].should.have.property('line', 1);
     });
 
     it('Rejects a ADD with one parameter', function () {
@@ -352,8 +405,11 @@ describe('params', function () {
 
       result.should.be.an.Object;
       result.should.have.property('valid', false);
-      result.should.have.property('message', 'Bad parameters');
-      result.should.have.property('line', 1);
+      result.should.have.property('errors');
+      result.errors.should.be.an.Array;
+      result.errors.length.should.eql(1);
+      result.errors[0].should.have.property('message', 'Bad parameters');
+      result.errors[0].should.have.property('line', 1);
     });
   });
 
@@ -393,8 +449,11 @@ describe('params', function () {
 
       result.should.be.an.Object;
       result.should.have.property('valid', false);
-      result.should.have.property('message', 'Bad parameters');
-      result.should.have.property('line', 1);
+      result.should.have.property('errors');
+      result.errors.should.be.an.Array;
+      result.errors.length.should.eql(1);
+      result.errors[0].should.have.property('message', 'Bad parameters');
+      result.errors[0].should.have.property('line', 1);
     });
   });
 

@@ -30,9 +30,12 @@ if (validation.valid) {
 }
 
 console.error('VALIDATION FAILED');
-console.error(validation.message);
+validation.errors.forEach(function (error) {
+  console.error(error.message);
 
-if (validation.line) {
-  console.error('at line: ' + validation.line);
-}
+  if (error.line) {
+    console.error('at line: ' + error.line);
+  }
+});
+
 process.exit(1);

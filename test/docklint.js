@@ -31,7 +31,11 @@ describe('docklint', function () {
     exec('./bin/docklint ./test/Dockerfiles/dockerfile-bad',
       function (err, stdout, stderr) {
         stdout.should.eql('');
-        stderr.should.eql('VALIDATION FAILED\nMissing FROM\n');
+        stderr.should.eql(['VALIDATION FAILED', 
+          'Missing FROM',
+          'Invalid instruction',
+          'Missing CMD',
+          ''].join('\n'));
         err.code.should.eql(1);
         done();
     });
