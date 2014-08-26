@@ -11,7 +11,7 @@ var validateDockerfile = require('../')
 describe('valid dockerfiles', function () {
   it('should approve all valid dockerfiles', function (done) {
     var counter = callbackCount(done);
-    find.eachfile(/./, path.join(__dirname, 'Dockerfiles'), function (file) {
+    find.eachfile(/.[0-9]/, path.join(__dirname, 'Dockerfiles'), function (file) {
       counter.inc();
 
       fs.readFile(file, 'UTF-8', function (err, data) {
