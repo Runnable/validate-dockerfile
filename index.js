@@ -20,7 +20,7 @@ var paramsRegexes = {
   workdir: /^[A-z0-9\/_.-]*$/
 };
 
-var validate = function (dockerfile) {
+function validate(dockerfile) {
   if (typeof dockerfile !== 'string') {
     return {
       valid: false,
@@ -30,17 +30,17 @@ var validate = function (dockerfile) {
 
   dockerfile = dockerfile.trim();
 
-  var hasFrom = false
-    , hasCmd = false
-    , currentLine = -1
-    , error;
+  var hasFrom = false;
+  var hasCmd = false;
+  var currentLine = -1;
+  var error;
 
   var linesArr = dockerfile.split('\n').filter(function (line) {
     var tLine = line.trim();
     return tLine && tLine[0] !== '#';
   });
 
-  var validateLine = function (line) {
+  function validateLine(line) {
     currentLine++;
     line = line.trim();
 

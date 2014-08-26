@@ -2,9 +2,9 @@
 
 'use strict';
 
-var fs = require('fs')
-  , path = require('path')
-  , validateDockerfile = require('../');
+var fs = require('fs');
+var path = require('path');
+var validateDockerfile = require('../');
 
 var fileLocation, dockerfile;
 
