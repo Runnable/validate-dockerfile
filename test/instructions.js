@@ -140,6 +140,14 @@ describe('optional instructions', function () {
     it('Rejects a ADD with one parameter', expectsFailure(
       'ADD ./tie-fighter'
     ));
+
+    it('Rejects an ADD that goes above the current dir', expectsFailure(
+      'ADD ../superior-firepower/superlaser /superlaser'
+    ));
+
+    it('Rejects an ADD that goes above the current dir even when ../ is hidden', expectsFailure(
+      'ADD ./grand-moff/../../superior-firepower/superlaser /superlaser'
+    ));
   });
 
   describe('volume', function () {

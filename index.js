@@ -1,5 +1,7 @@
 'use strict';
 
+var path = require('path');
+
 var instructionsRegex = /^(CMD|FROM|MAINTAINER|RUN|EXPOSE|ENV|ADD|ENTRYPOINT|VOLUME|USER|WORKDIR|ONBUILD)(\s)?/i;
 
 // Some regexes sourced from:
@@ -20,6 +22,20 @@ var paramsRegexes = {
   volume: /^([A-z0-9\/_.-]+|\["[A-z0-9\/_.-]+"\])$/,
   workdir: /^[A-z0-9\/_.-]+$/
 };
+
+function isDirValid (dir) {
+  return path.normalize(dir).indexOf('..') !== 0;
+}
+
+var paramValidators = {
+  add: function (params) {
+    if (params.indexOf('http') === 0) {
+      // No need to normalize a url
+      return true;
+    }
+    return isDirValid(params.split(' ')[0]);
+  }
+}
 
 function finish (errors) {
   if (!errors.length) {
@@ -78,7 +94,8 @@ function validate(dockerfile) {
     instruction = instruction[0].trim().toLowerCase();
 
     var params = line.replace(instructionsRegex, '');
-    var validParams = paramsRegexes[instruction].test(params);
+    var validParams = paramsRegexes[instruction].test(params)
+      && (paramValidators[instruction] ? paramValidators[instruction](params) : true);
 
     if (!validParams) {
       errors.push({
