@@ -72,7 +72,7 @@ describe('invalid dockerfiles', function () {
     result.should.have.property('errors');
     result.errors.should.be.an.Array;
     result.errors.length.should.eql(3);
-    result.errors[0].should.have.property('message', 'Missing FROM');
+    result.errors[0].should.have.property('message', 'Missing or misplaced FROM');
     result.errors[0].should.have.property('line', 1);
     result.errors[1].should.have.property('message', 'Invalid instruction');
     result.errors[1].should.have.property('line', 1);
@@ -94,6 +94,42 @@ describe('invalid dockerfiles', function () {
     result.errors[0].should.not.have.property('line');
   });
 
+  it('gives the correct line when there are comments', function () {
+    var dockerfile = ['FROM thyferra/bacta',
+      '# Heal them up',
+      'RN ./fill-bacta-tank',
+      'CMD heal paitent'
+    ].join('\n');
+
+    var result = validateDockerfile(dockerfile);
+
+    result.should.be.an.Object;
+    result.should.have.property('valid', false);
+    result.should.have.property('errors');
+    result.errors.should.be.an.Array;
+    result.errors.length.should.eql(1);
+    result.errors[0].should.have.property('message', 'Invalid instruction');
+    result.errors[0].should.have.property('line', 3);
+  });
+
+  it('gives the correct line when there are blank lines', function () {
+    var dockerfile = ['FROM thyferra/bacta',
+      '',
+      'RN ./fill-bacta-tank',
+      'CMD heal paitent'
+    ].join('\n');
+
+    var result = validateDockerfile(dockerfile);
+
+    result.should.be.an.Object;
+    result.should.have.property('valid', false);
+    result.should.have.property('errors');
+    result.errors.should.be.an.Array;
+    result.errors.length.should.eql(1);
+    result.errors[0].should.have.property('message', 'Invalid instruction');
+    result.errors[0].should.have.property('line', 3);
+  });
+
   describe('empty', function () {
     it('rejects an empty string', function () {
       var dockerfile = '';
@@ -104,9 +140,11 @@ describe('invalid dockerfiles', function () {
       result.should.have.property('valid', false);
       result.should.have.property('errors');
       result.errors.should.be.an.Array;
-      result.errors.length.should.eql(1);
-      result.errors[0].should.have.property('message', 'Empty dockerfile');
-      result.errors[0].should.not.have.property('line');
+      result.errors.length.should.eql(2);
+      result.errors[0].should.have.property('message', 'Missing or misplaced FROM');
+      result.errors[0].should.have.property('line', 1);
+      result.errors[1].should.have.property('message', 'Missing CMD');
+      result.errors[1].should.not.have.property('line');
     });
 
     it('rejects a dockerfile with only comments', function () {
@@ -118,9 +156,11 @@ describe('invalid dockerfiles', function () {
       result.should.have.property('valid', false);
       result.should.have.property('errors');
       result.errors.should.be.an.Array;
-      result.errors.length.should.eql(1);
-      result.errors[0].should.have.property('message', 'Empty dockerfile');
-      result.errors[0].should.not.have.property('line');
+      result.errors.length.should.eql(2);
+      result.errors[0].should.have.property('message', 'Missing or misplaced FROM');
+      result.errors[0].should.have.property('line', 1);
+      result.errors[1].should.have.property('message', 'Missing CMD');
+      result.errors[1].should.not.have.property('line');
     });
 
     it('rejects a dockerfile with only newlines', function () {
@@ -132,9 +172,11 @@ describe('invalid dockerfiles', function () {
       result.should.have.property('valid', false);
       result.should.have.property('errors');
       result.errors.should.be.an.Array;
-      result.errors.length.should.eql(1);
-      result.errors[0].should.have.property('message', 'Empty dockerfile');
-      result.errors[0].should.not.have.property('line');
+      result.errors.length.should.eql(2);
+      result.errors[0].should.have.property('message', 'Missing or misplaced FROM');
+      result.errors[0].should.have.property('line', 1);
+      result.errors[1].should.have.property('message', 'Missing CMD');
+      result.errors[1].should.not.have.property('line');
     });
   });
 

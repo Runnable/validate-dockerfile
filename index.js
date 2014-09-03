@@ -42,19 +42,30 @@ function validate(dockerfile) {
 
   dockerfile = dockerfile.trim();
 
-  var hasFrom = false;
+  var fromCheck = false;
   var hasCmd = false;
   var currentLine = 0;
   var errors = [];
 
-  var linesArr = dockerfile.split('\n').filter(function (line) {
-    var tLine = line.trim();
-    return tLine && tLine[0] !== '#';
-  });
+  var linesArr = dockerfile.split('\n');
 
   function validateLine(line) {
     currentLine++;
     line = line.trim();
+    if (!line || line[0] === '#') {
+      return;
+    }
+
+    // First instruction must be FROM
+    if (!fromCheck) {
+      fromCheck = true;
+      if (line.toUpperCase().indexOf('FROM') !== 0) {
+        errors.push({
+          message: 'Missing or misplaced FROM',
+          line: currentLine
+        });
+      }
+    }
 
     var instruction = instructionsRegex.exec(line);
     if (!instruction) {
@@ -80,24 +91,16 @@ function validate(dockerfile) {
       hasCmd = true;
     }
     return true;
-  };
-
-  if (!linesArr.length) {
-    errors.push({
-      message: 'Empty dockerfile'
-    });
-    return finish(errors);
-  }
-
-  // First line should be FROM instruction
-  if (linesArr[0].toUpperCase().indexOf('FROM') !== 0) {
-    errors.push({
-      message: 'Missing FROM',
-      line: 1
-    });
   }
 
   linesArr.forEach(validateLine);
+
+  if (!fromCheck) {
+    errors.push({
+      message: 'Missing or misplaced FROM',
+      line: 1
+    });
+  }
 
   if (!hasCmd) {
     errors.push({
@@ -106,6 +109,6 @@ function validate(dockerfile) {
   }
 
   return finish(errors);
-};
+}
 
 module.exports = validate;

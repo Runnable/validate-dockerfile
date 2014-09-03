@@ -32,7 +32,7 @@ describe('docklint', function () {
       function (err, stdout, stderr) {
         stdout.should.eql('');
         stderr.should.eql(['VALIDATION FAILED', 
-          'Missing FROM',
+          'Missing or misplaced FROM',
           'at line 1',
           'Invalid instruction',
           'at line 1',

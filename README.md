@@ -38,15 +38,12 @@ The error messages that can be returned are:
   - `Bad parameters`
     - An instruction's parameters did not satisfy our regexes.
     - i.e. `FROM Incom/Z-95 Headhunter`
-  - `Missing FROM`
+  - `Missing or misplaced FROM`
     - `FROM` is not the first instruction in the dockerfile.
     - For more: https://docs.docker.com/reference/builder/#from
   - `Missing CMD`
     - The dockerfile does not contain a `CMD` instruction
     - For more: https://docs.docker.com/reference/builder/#cmd
-  - `Empty dockerfile`
-    - The dockerfile does not contain any instructions
-    - More than likely, you're passing the wrong parameter
   - `Invalid type`
     - You gave us something other than a string
 
