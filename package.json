@@ -1,6 +1,6 @@
 {
   "name": "validate-dockerfile",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Validates a Dockerfile",
   "main": "index.js",
   "bin": {
