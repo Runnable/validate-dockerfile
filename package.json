@@ -7,7 +7,8 @@
     "docklint": "./bin/docklint"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "coverage": "istanbul cover _mocha"
   },
   "homepage": "https://github.com/Runnable/validate-dockerfile",
   "repository": {
