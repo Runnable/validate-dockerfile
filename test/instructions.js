@@ -74,6 +74,10 @@ describe('optional instructions', function () {
     it('Should reject with no parameters', expectsFailure(
       'MAINTAINER'
     ));
+
+    it('Should reject with just a space', expectsFailure(
+      'MAINTAINER '
+    ));
   });
 
   describe('expose', function () {
