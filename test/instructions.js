@@ -133,6 +133,10 @@ describe('optional instructions', function () {
       'ADD http://superlaser.com /Alderaan'
     ));
 
+    it('Allows ADD commands that reference homedir', expectsSuccess(
+      'ADD ~/tie-fighter ~/hangar'
+    ));
+
     it('Rejects a malformed URL', expectsFailure(
       'ADD htp://superlaser.com /Alderaan'
     ));
@@ -159,6 +163,10 @@ describe('optional instructions', function () {
       'VOLUME ["./1.72x10tothe7thpower"]'
     ));
 
+    it('Should take a VOLUME that references homedir', expectsSuccess(
+      'VOLUME ~/1.72x10tothe7thpower'
+    ));
+
     it('Rejects improper JSON', expectsFailure(
       'VOLUME ["1.72'
     ));
@@ -167,6 +175,10 @@ describe('optional instructions', function () {
   describe('workdir', function () {
     it('Should take a standard WORKDIR', expectsSuccess(
       'WORKDIR ./Despayre'
+    ));
+
+    it('Should take a WORKDIR that references homedir', expectsSuccess(
+      'WORKDIR ~/Despayre'
     ));
   });
 });
