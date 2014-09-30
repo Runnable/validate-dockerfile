@@ -21,7 +21,7 @@ describe('valid dockerfiles', function () {
         }
         var isValid = validateDockerfile(data);
         if (!isValid.valid) {
-          counter.next(new Error(isValid[0].message));
+          counter.next(new Error(isValid.errors[0].message));
         }
         counter.next();
       });
