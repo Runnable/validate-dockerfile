@@ -43,6 +43,28 @@ describe('required instructions', function () {
   describe('from', function () {
     it('Should take a standard FROM', expectsSuccess(''));
 
+    it('should allow versions', function () {
+      var dockerfile = 'FROM vader/deathstar:2\nCMD ["destroy", "Yavin IV"]';
+
+      var result = validateDockerfile(dockerfile);
+
+      result.should.be.an.Object;
+      result.should.have.property('valid', true);
+      result.should.not.have.property('message');
+      result.should.not.have.property('line');
+    });
+
+    it('Should allow underscores', function() {
+      var dockerfile = 'FROM vader/death_star:2\nCMD ["destroy", "Yavin IV"]';
+
+      var result = validateDockerfile(dockerfile);
+
+      result.should.be.an.Object;
+      result.should.have.property('valid', true);
+      result.should.not.have.property('message');
+      result.should.not.have.property('line');
+    });
+
     it('Should reject with capital letters', function () {
       var dockerfile = 'FROM Vader/Death-Star\nCMD ["destroy", "Yavin IV"]';
 

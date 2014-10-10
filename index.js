@@ -9,7 +9,7 @@ var instructionsRegex = /^(CMD|FROM|MAINTAINER|RUN|EXPOSE|ENV|ADD|ENTRYPOINT|VOL
 //   http://stackoverflow.com/a/3809435/1216976
 //   http://stackoverflow.com/a/6949914/1216976
 var paramsRegexes = {
-  from: /^[a-z0-9.\/-]+(:[a-z0-9.]+)?$/,
+  from: /^[a-z0-9.\/_-]+(:[a-z0-9.]+)?$/,
   maintainer: /.+/,
   expose: /^[0-9]+([0-9\s]+)?$/,
   env: /^[a-zA-Z_]+[a-zA-Z0-9_]* .+$/,
