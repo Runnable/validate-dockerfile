@@ -87,6 +87,14 @@ describe('required instructions', function () {
   });
 });
 
+describe('generic instructions', function() {
+  describe('formatting', function() {
+    it('should allow multiple spaces between command and params', expectsSuccess(
+      'RUN     kessel'
+    ));
+  });
+});
+
 describe('optional instructions', function () {
   describe('maintainer', function () {
     it('Should take a standard MAINTAINER', expectsSuccess(
@@ -187,6 +195,10 @@ describe('optional instructions', function () {
 
     it('Should take a JSON array VOLUME', expectsSuccess(
       'VOLUME ["./1.72x10tothe7thpower"]'
+    ));
+
+    it('Should take a JSON array VOLUME with multiple items', expectsSuccess(
+      'VOLUME ["./1.72x10tothe7thpower", "./4/3pi_r_square"]'
     ));
 
     it('Should take a VOLUME that references homedir', expectsSuccess(
