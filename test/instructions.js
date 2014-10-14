@@ -92,6 +92,10 @@ describe('generic instructions', function() {
     it('should allow multiple spaces between command and params', expectsSuccess(
       'RUN     kessel'
     ));
+
+    it('should allow pure whitespace lines', expectsSuccess(
+      '     '
+    ));
   });
 });
 

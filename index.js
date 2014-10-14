@@ -67,7 +67,7 @@ function validate(dockerfile) {
 
   function validateLine(line) {
     currentLine++;
-    if (!line || line[0] === '#') {
+    if (!line.trim() || line[0] === '#') {
       return;
     }
 
