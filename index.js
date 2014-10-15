@@ -1,6 +1,7 @@
 'use strict';
 
 var path = require('path');
+var EOL = require('os').EOL;
 
 var instructionsRegex = /^(CMD|FROM|MAINTAINER|RUN|EXPOSE|ENV|ADD|ENTRYPOINT|VOLUME|USER|WORKDIR|ONBUILD)(\s*)/i;
 
@@ -64,7 +65,7 @@ function validate(dockerfile) {
   var currentLine = 0;
   var errors = [];
 
-  var linesArr = dockerfile.split('\n');
+  var linesArr = dockerfile.split(EOL);
 
   function validateLine(line) {
     currentLine++;

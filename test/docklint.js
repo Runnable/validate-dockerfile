@@ -3,6 +3,7 @@
 require('should');
 
 var exec = require('child_process').exec;
+var EOL = require('os').EOL;
 
 describe('docklint', function () {
   it('should allow a valid Dockerfile', function (done) {
@@ -10,7 +11,7 @@ describe('docklint', function () {
       function (err, stdout, stderr) {
         if (err) { return done(err); }
 
-        stdout.should.eql('Dockerfile looks good!\n');
+        stdout.should.eql('Dockerfile looks good!' + EOL);
         stderr.should.eql('');
         done();
     });
@@ -21,7 +22,7 @@ describe('docklint', function () {
       function (err, stdout, stderr) {
         if (err) { return done(err); }
 
-        stdout.should.eql('Dockerfile looks good!\n');
+        stdout.should.eql('Dockerfile looks good!' + EOL);
         stderr.should.eql('');
         done();
     });
@@ -31,13 +32,13 @@ describe('docklint', function () {
     exec('./bin/docklint ./test/Dockerfiles/dockerfile-bad',
       function (err, stdout, stderr) {
         stdout.should.eql('');
-        stderr.should.eql(['VALIDATION FAILED', 
+        stderr.should.eql(['VALIDATION FAILED',
           'Missing or misplaced FROM',
           'at line 1',
           'Invalid instruction',
           'at line 1',
           'Missing CMD',
-          ''].join('\n'));
+          ''].join(EOL));
         err.code.should.eql(1);
         done();
     });
@@ -47,7 +48,7 @@ describe('docklint', function () {
     exec('./bin/docklint ./test/Dockerfiles/data-tapes',
       function (err, stdout, stderr) {
         stdout.should.eql('');
-        stderr.should.eql('ERROR: Dockerfile not found\n');
+        stderr.should.eql('ERROR: Dockerfile not found' + EOL);
         err.code.should.eql(1);
         done();
     });

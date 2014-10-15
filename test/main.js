@@ -6,7 +6,8 @@ var validateDockerfile = require('../')
   , find = require('find')
   , fs = require('fs')
   , path = require('path')
-  , callbackCount = require('callback-count');
+  , callbackCount = require('callback-count')
+  , EOL = require('os').EOL;
 
 // dockerfiles tested here from https://github.com/kstaken/dockerfile-examples/tree/master/salt-minion
 describe('valid dockerfiles', function () {
@@ -31,7 +32,7 @@ describe('valid dockerfiles', function () {
 
 describe('invalid dockerfiles', function () {
   it('should complain about an invalid instruction', function () {
-    var dockerfile = 'FROM vader/force-powers\nCONJURE stolen_data_tapes';
+    var dockerfile = 'FROM vader/force-powers' + EOL + 'CONJURE stolen_data_tapes';
 
     var result = validateDockerfile(dockerfile);
 
@@ -99,7 +100,7 @@ describe('invalid dockerfiles', function () {
       '# Heal them up',
       'RN ./fill-bacta-tank',
       'CMD heal paitent'
-    ].join('\n');
+    ].join(EOL);
 
     var result = validateDockerfile(dockerfile);
 
@@ -117,7 +118,7 @@ describe('invalid dockerfiles', function () {
       '',
       'RN ./fill-bacta-tank',
       'CMD heal paitent'
-    ].join('\n');
+    ].join(EOL);
 
     var result = validateDockerfile(dockerfile);
 
@@ -148,7 +149,7 @@ describe('invalid dockerfiles', function () {
     });
 
     it('rejects a dockerfile with only comments', function () {
-      var dockerfile = '#Witness the power of this\n#Fully documented battlestation';
+      var dockerfile = '#Witness the power of this' + EOL + '#Fully documented battlestation';
 
       var result = validateDockerfile(dockerfile);
 
@@ -164,7 +165,7 @@ describe('invalid dockerfiles', function () {
     });
 
     it('rejects a dockerfile with only newlines', function () {
-      var dockerfile = '\n\n\n\n\n';
+      var dockerfile = EOL + EOL + EOL + EOL + EOL;
 
       var result = validateDockerfile(dockerfile);
 

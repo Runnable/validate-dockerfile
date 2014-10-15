@@ -5,12 +5,13 @@
  */
 
 var validateDockerfile = require('../');
+var EOL = require('os').EOL;
 
 function expectsSuccess (line) {
   return function () {
     var dockerfile = ['FROM vader/death-star',
       line,
-      'CMD ["destroy", "Yavin IV"]'].join('\n');
+      'CMD ["destroy", "Yavin IV"]'].join(EOL);
 
       var result = validateDockerfile(dockerfile);
 
@@ -25,7 +26,7 @@ function expectsFailure (line) {
   return function () {
     var dockerfile = ['FROM vader/death-star',
     line,
-    'CMD ["destroy", "Yavin IV"]'].join('\n');
+    'CMD ["destroy", "Yavin IV"]'].join(EOL);
 
     var result = validateDockerfile(dockerfile);
 
@@ -44,7 +45,7 @@ describe('required instructions', function () {
     it('Should take a standard FROM', expectsSuccess(''));
 
     it('should allow versions', function () {
-      var dockerfile = 'FROM vader/deathstar:2\nCMD ["destroy", "Yavin IV"]';
+      var dockerfile = 'FROM vader/deathstar:2' + EOL + 'CMD ["destroy", "Yavin IV"]';
 
       var result = validateDockerfile(dockerfile);
 
@@ -55,7 +56,7 @@ describe('required instructions', function () {
     });
 
     it('Should allow underscores', function() {
-      var dockerfile = 'FROM vader/death_star:2\nCMD ["destroy", "Yavin IV"]';
+      var dockerfile = 'FROM vader/death_star:2' + EOL + 'CMD ["destroy", "Yavin IV"]';
 
       var result = validateDockerfile(dockerfile);
 
@@ -66,7 +67,7 @@ describe('required instructions', function () {
     });
 
     it('Should reject with capital letters', function () {
-      var dockerfile = 'FROM Vader/Death-Star\nCMD ["destroy", "Yavin IV"]';
+      var dockerfile = 'FROM Vader/Death-Star' + EOL + 'CMD ["destroy", "Yavin IV"]';
 
       var result = validateDockerfile(dockerfile);
 
@@ -98,11 +99,11 @@ describe('generic instructions', function() {
     ));
 
     it('should allow escaped newlines', expectsSuccess(
-      'RUN echo "A long time ago"\\\necho "In a galaxy far, far away"'
+      'RUN echo "A long time ago"\\' + EOL + 'echo "In a galaxy far, far away"'
     ));
 
     it('should allow multiple escaped newlines', expectsSuccess(
-      'RUN echo "It is a period of civil war. Rebel"\\\necho "spaceships, striking from a hidden"\\\necho "base, have won their first victory"\\\necho "against the evil Galactic Empire."'
+      'RUN echo "It is a period of civil war. Rebel"\\' + EOL + 'echo "spaceships, striking from a hidden"\\' + EOL + 'echo "base, have won their first victory"\\' + EOL + 'echo "against the evil Galactic Empire."'
     ));
   });
 });
