@@ -96,6 +96,14 @@ describe('generic instructions', function() {
     it('should allow pure whitespace lines', expectsSuccess(
       '     '
     ));
+
+    it('should allow escaped newlines', expectsSuccess(
+      'RUN echo "A long time ago"\\\necho "In a galaxy far, far away"'
+    ));
+
+    it('should allow multiple escaped newlines', expectsSuccess(
+      'RUN echo "It is a period of civil war. Rebel"\\\necho "spaceships, striking from a hidden"\\\necho "base, have won their first victory"\\\necho "against the evil Galactic Empire."'
+    ));
   });
 });
 

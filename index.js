@@ -60,6 +60,7 @@ function validate(dockerfile) {
 
   var fromCheck = false;
   var hasCmd = false;
+  var escapedNewline = false;
   var currentLine = 0;
   var errors = [];
 
@@ -68,6 +69,13 @@ function validate(dockerfile) {
   function validateLine(line) {
     currentLine++;
     if (!line.trim() || line[0] === '#') {
+      return;
+    }
+
+    var thisLineEscaped = escapedNewline;
+    escapedNewline = line.slice(-1) === '\\';
+
+    if (thisLineEscaped) {
       return;
     }
 
