@@ -172,34 +172,43 @@ describe('optional instructions', function () {
   describe.skip('entrypoint', function() {});
 
   describe('add', function () {
-    it('Should take a standard filepath ADD', expectsSuccess(
-      'ADD ./tie-fighter /hangar'
+    addCopy('ADD');
+  });
+
+  describe('copy', function() {
+    addCopy('COPY');
+  });
+
+  // ADD and COPY are annoyingly identical.
+  function addCopy (cmd) {
+    it('Should take a standard filepath ' +cmd, expectsSuccess(
+      cmd + ' ./tie-fighter /hangar'
     ));
 
-    it('Should take a standard url ADD', expectsSuccess(
-      'ADD http://superlaser.com /Alderaan'
+    it('Should take a standard url ' + cmd, expectsSuccess(
+      cmd + ' http://superlaser.com /Alderaan'
     ));
 
-    it('Allows ADD commands that reference homedir', expectsSuccess(
-      'ADD ~/tie-fighter ~/hangar'
+    it('Allows ' + cmd + ' commands that reference homedir', expectsSuccess(
+      cmd + ' ~/tie-fighter ~/hangar'
     ));
 
     it('Rejects a malformed URL', expectsFailure(
-      'ADD htp://superlaser.com /Alderaan'
+      cmd + ' htp://superlaser.com /Alderaan'
     ));
 
-    it('Rejects a ADD with one parameter', expectsFailure(
-      'ADD ./tie-fighter'
+    it('Rejects a ' + cmd + ' with one parameter', expectsFailure(
+      cmd + ' ./tie-fighter'
     ));
 
-    it('Rejects an ADD that goes above the current dir', expectsFailure(
-      'ADD ../superior-firepower/superlaser /superlaser'
+    it('Rejects an ' + cmd + ' that goes above the current dir', expectsFailure(
+      cmd + ' ../superior-firepower/superlaser /superlaser'
     ));
 
-    it('Rejects an ADD that goes above the current dir even when ../ is hidden', expectsFailure(
-      'ADD ./grand-moff/../../superior-firepower/superlaser /superlaser'
+    it('Rejects an ' + cmd + ' that goes above the current dir even when ../ is hidden', expectsFailure(
+      cmd + ' ./grand-moff/../../superior-firepower/superlaser /superlaser'
     ));
-  });
+  }
 
   describe('volume', function () {
     it('Should take a standard VOLUME', expectsSuccess(

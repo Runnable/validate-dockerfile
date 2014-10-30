@@ -3,7 +3,7 @@
 var path = require('path');
 var EOL = require('os').EOL;
 
-var instructionsRegex = /^(CMD|FROM|MAINTAINER|RUN|EXPOSE|ENV|ADD|ENTRYPOINT|VOLUME|USER|WORKDIR|ONBUILD)(\s*)/i;
+var instructionsRegex = /^(CMD|FROM|MAINTAINER|RUN|EXPOSE|ENV|ADD|ENTRYPOINT|VOLUME|USER|WORKDIR|ONBUILD|COPY)(\s*)/i;
 
 // Some regexes sourced from:
 //   http://stackoverflow.com/a/2821201/1216976
@@ -20,6 +20,7 @@ var paramsRegexes = {
   onbuild: /.+/,
   entrypoint: /.+/,
   add: /^(~?[A-z0-9\/_.-]+|https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/\/=]*))\s~?[A-z0-9\/_.-]+$/,
+  copy: /^(~?[A-z0-9\/_.-]+|https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/\/=]*))\s~?[A-z0-9\/_.-]+$/,
   volume: /^~?([A-z0-9\/_.-]+|\[(\s*)?("[A-z0-9\/_. -]+"(,\s*)?)+(\s*)?\])$/,
   workdir: /^~?[A-z0-9\/_.-]+$/
 };
@@ -28,15 +29,18 @@ function isDirValid (dir) {
   return path.normalize(dir).indexOf('..') !== 0;
 }
 
-var paramValidators = {
-  add: function (params) {
-    if (params.indexOf('http') === 0) {
-      // No need to normalize a url
-      return true;
-    }
-    return isDirValid(params.split(' ')[0]);
+function addCopy (params) {
+  if (params.indexOf('http') === 0) {
+    // No need to normalize a url
+    return true;
   }
+  return isDirValid(params.split(' ')[0]);
 }
+
+var paramValidators = {
+  add: addCopy,
+  copy: addCopy
+};
 
 function finish (errors) {
   if (!errors.length) {
