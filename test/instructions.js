@@ -66,6 +66,28 @@ describe('required instructions', function () {
       result.should.not.have.property('line');
     });
 
+    it('Should allow multiple slashes', function() {
+      var dockerfile = 'FROM vader/death_star/hangar/tie' + EOL + 'CMD ["destroy", "X-Wing"]';
+
+      var result = validateDockerfile(dockerfile);
+
+      result.should.be.an.Object;
+      result.should.have.property('valid', true);
+      result.should.not.have.property('message');
+      result.should.not.have.property('line');
+    });
+
+    it('Should allow registry url', function() {
+      var dockerfile = 'FROM thyferra.io/bacta/canister' + EOL + 'CMD ["heal", "Skywalker"]';
+
+      var result = validateDockerfile(dockerfile);
+
+      result.should.be.an.Object;
+      result.should.have.property('valid', true);
+      result.should.not.have.property('message');
+      result.should.not.have.property('line');
+    });
+
     it('Should reject with capital letters', function () {
       var dockerfile = 'FROM Vader/Death-Star' + EOL + 'CMD ["destroy", "Yavin IV"]';
 
