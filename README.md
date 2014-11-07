@@ -1,6 +1,7 @@
 #validate-dockerfile
 
 NodeJS validator for dockerfiles.
+[![NPM](https://nodei.co/npm/validate-dockerfile.png)](https://npmjs.org/package/validate-dockerfile)
 
 ##Installation
 
