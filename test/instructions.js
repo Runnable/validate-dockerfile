@@ -7,6 +7,13 @@
 var validateDockerfile = require('../');
 var EOL = require('os').EOL;
 
+function shouldBeValid (result) {
+  result.should.be.an.Object;
+  result.should.have.property('valid', true);
+  result.should.not.have.property('message');
+  result.should.not.have.property('line');
+}
+
 function expectsSuccess (line) {
   return function () {
     var dockerfile = ['FROM vader/death-star',
@@ -15,10 +22,7 @@ function expectsSuccess (line) {
 
       var result = validateDockerfile(dockerfile);
 
-      result.should.be.an.Object;
-      result.should.have.property('valid', true);
-      result.should.not.have.property('message');
-      result.should.not.have.property('line');
+      shouldBeValid(result);
   };
 }
 
@@ -49,10 +53,7 @@ describe('required instructions', function () {
 
       var result = validateDockerfile(dockerfile);
 
-      result.should.be.an.Object;
-      result.should.have.property('valid', true);
-      result.should.not.have.property('message');
-      result.should.not.have.property('line');
+      shouldBeValid(result);
     });
 
     it('Should allow underscores', function() {
@@ -60,10 +61,15 @@ describe('required instructions', function () {
 
       var result = validateDockerfile(dockerfile);
 
-      result.should.be.an.Object;
-      result.should.have.property('valid', true);
-      result.should.not.have.property('message');
-      result.should.not.have.property('line');
+      shouldBeValid(result);
+    });
+
+    it('Should allow dashes in the tag', function() {
+      var dockerfile = 'FROM vader/death_star:2-dev' + EOL + 'CMD ["destroy", "Yavin IV"]';
+
+      var result = validateDockerfile(dockerfile);
+
+      shouldBeValid(result);
     });
 
     it('Should allow multiple slashes', function() {
@@ -71,10 +77,7 @@ describe('required instructions', function () {
 
       var result = validateDockerfile(dockerfile);
 
-      result.should.be.an.Object;
-      result.should.have.property('valid', true);
-      result.should.not.have.property('message');
-      result.should.not.have.property('line');
+      shouldBeValid(result);
     });
 
     it('Should allow registry url', function() {
@@ -82,10 +85,7 @@ describe('required instructions', function () {
 
       var result = validateDockerfile(dockerfile);
 
-      result.should.be.an.Object;
-      result.should.have.property('valid', true);
-      result.should.not.have.property('message');
-      result.should.not.have.property('line');
+      shouldBeValid(result);
     });
 
     it('Should reject with capital letters', function () {
