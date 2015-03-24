@@ -7,7 +7,7 @@ var EOL = require('os').EOL;
 
 describe('docklint', function () {
   it('should allow a valid Dockerfile', function (done) {
-    exec('./bin/docklint ./test/Dockerfiles/dockerfile-0',
+    exec('./bin/docklint ./test/Dockerfiles/Dockerfile-0',
       function (err, stdout, stderr) {
         if (err) { return done(err); }
 
@@ -18,7 +18,7 @@ describe('docklint', function () {
   });
 
   it.skip('should allow a valid Dockerfile in the same dir', function (done) {
-    exec('./bin/docklint ./test/Dockerfiles/dockerfile-0',
+    exec('./bin/docklint ./test/Dockerfiles/Dockerfile-0',
       function (err, stdout, stderr) {
         if (err) { return done(err); }
 
@@ -29,7 +29,7 @@ describe('docklint', function () {
   });
 
   it('should fail an invalid Dockerfile', function (done) {
-    exec('./bin/docklint ./test/Dockerfiles/dockerfile-bad',
+    exec('./bin/docklint ./test/Dockerfiles/Dockerfile-bad',
       function (err, stdout, stderr) {
         stdout.should.eql('');
         stderr.should.eql(['VALIDATION FAILED',

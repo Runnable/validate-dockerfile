@@ -1,6 +1,6 @@
 {
   "name": "validate-dockerfile",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Validates a Dockerfile",
   "main": "index.js",
   "bin": {
@@ -28,6 +28,8 @@
   "devDependencies": {
     "callback-count": "^0.1.0",
     "find": "^0.1.7",
+    "istanbul": "^0.3.4",
+    "mocha": "^2.0.1",
     "should": "^4.0.4"
   }
 }

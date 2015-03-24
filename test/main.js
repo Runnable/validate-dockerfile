@@ -15,7 +15,6 @@ describe('valid dockerfiles', function () {
     var counter = callbackCount(done);
     find.eachfile(/.*[0-9]$/, path.join(__dirname, 'Dockerfiles'), function (file) {
       counter.inc();
-
       fs.readFile(file, 'UTF-8', function (err, data) {
         if (err) {
           throw err;
