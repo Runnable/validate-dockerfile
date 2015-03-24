@@ -1,6 +1,11 @@
 #validate-dockerfile
 
-NodeJS validator for dockerfiles.
+NodeJS validator for dockerfiles.  
+
+[![Build Status](https://travis-ci.org/runnable/validate-dockerfile.svg)](https://travis-ci.org/runnable/validate-dockerfile)
+[![Dependency Status](https://david-dm.org/runnable/validate-dockerfile.svg)](https://david-dm.org/runnable/validate-dockerfile)
+[![devDependency Status](https://david-dm.org/runnable/validate-dockerfile/dev-status.svg)](https://david-dm.org/runnable/validate-dockerfile#info=devDependencies)
+  
 [![NPM](https://nodei.co/npm/validate-dockerfile.png?downloads=true&downloadRank=true&stars=true)](https://npmjs.org/package/validate-dockerfile)
 
 ##Installation
