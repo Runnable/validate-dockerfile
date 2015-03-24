@@ -29,7 +29,7 @@ describe('docklint', function () {
   });
 
   it('should fail an invalid Dockerfile', function (done) {
-    exec('./bin/docklint ./test/Dockerfiles/dockerfile-bad',
+    exec('./bin/docklint ./test/Dockerfiles/Dockerfile-bad',
       function (err, stdout, stderr) {
         stdout.should.eql('');
         stderr.should.eql(['VALIDATION FAILED',
