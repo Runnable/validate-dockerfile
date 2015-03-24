@@ -66,6 +66,17 @@ describe('required instructions', function () {
       result.should.not.have.property('line');
     });
 
+    it('Should allow dashes', function() {
+      var dockerfile = 'FROM vader/death-star:2' + EOL + 'CMD ["destroy", "Yavin IV"]';
+
+      var result = validateDockerfile(dockerfile);
+
+      result.should.be.an.Object;
+      result.should.have.property('valid', true);
+      result.should.not.have.property('message');
+      result.should.not.have.property('line');
+    });
+
     it('Should allow multiple slashes', function() {
       var dockerfile = 'FROM vader/death_star/hangar/tie' + EOL + 'CMD ["destroy", "X-Wing"]';
 
