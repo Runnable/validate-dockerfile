@@ -2,7 +2,7 @@
 
 NodeJS validator for dockerfiles.  
 
-[![Build Status](https://travis-ci.org/runnable/validate-dockerfile.svg)](https://travis-ci.org/runnable/validate-dockerfile)
+[![Build Status](https://travis-ci.org/Runnable/validate-dockerfile.svg?branch=master)](https://travis-ci.org/Runnable/validate-dockerfile)
 [![Dependency Status](https://david-dm.org/runnable/validate-dockerfile.svg)](https://david-dm.org/runnable/validate-dockerfile)
 [![devDependency Status](https://david-dm.org/runnable/validate-dockerfile/dev-status.svg)](https://david-dm.org/runnable/validate-dockerfile#info=devDependencies)
   
