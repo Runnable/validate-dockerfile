@@ -57,7 +57,8 @@ function finish (errors) {
 function validate(dockerfile) {
   if (typeof dockerfile !== 'string') {
     return finish([{
-      message: 'Invalid type'
+      message: 'Invalid type',
+      priority: 0
     }]);
   }
 
@@ -93,7 +94,8 @@ function validate(dockerfile) {
       if (line.toUpperCase().indexOf('FROM') !== 0) {
         errors.push({
           message: 'Missing or misplaced FROM',
-          line: currentLine
+          line: currentLine,
+          priority: 0
         });
       }
     }
@@ -102,7 +104,8 @@ function validate(dockerfile) {
     if (!instruction) {
       errors.push({
         message: 'Invalid instruction',
-        line: currentLine
+        line: currentLine,
+        priority: 0
       });
       return false;
     }
@@ -115,7 +118,8 @@ function validate(dockerfile) {
     if (!validParams) {
       errors.push({
         message: 'Bad parameters',
-        line: currentLine
+        line: currentLine,
+        priority: 1
       });
       return false;
     }
@@ -130,13 +134,15 @@ function validate(dockerfile) {
   if (!fromCheck) {
     errors.push({
       message: 'Missing or misplaced FROM',
-      line: 1
+      line: 1,
+      priority: 0
     });
   }
 
   if (!hasCmd) {
     errors.push({
-      message: 'Missing CMD'
+      message: 'Missing CMD',
+      priority: 1
     });
   }
 

@@ -42,7 +42,9 @@ describe('invalid dockerfiles', function () {
     result.errors.length.should.eql(2);
     result.errors[0].should.have.property('message', 'Invalid instruction');
     result.errors[0].should.have.property('line', 2);
+    result.errors[0].should.have.property('priority', 0);
     result.errors[1].should.have.property('message', 'Missing CMD');
+    result.errors[1].should.have.property('priority', 1);
     result.errors[1].should.not.have.property('line');
   });
 
@@ -57,8 +59,10 @@ describe('invalid dockerfiles', function () {
     result.errors.should.be.an.Array;
     result.errors.length.should.eql(2);
     result.errors[0].should.have.property('message', 'Bad parameters');
+    result.errors[0].should.have.property('priority', 1);
     result.errors[0].should.have.property('line', 1);
     result.errors[1].should.have.property('message', 'Missing CMD');
+    result.errors[1].should.have.property('priority', 1);
     result.errors[1].should.not.have.property('line');
   });
 
@@ -73,10 +77,13 @@ describe('invalid dockerfiles', function () {
     result.errors.should.be.an.Array;
     result.errors.length.should.eql(3);
     result.errors[0].should.have.property('message', 'Missing or misplaced FROM');
+    result.errors[0].should.have.property('priority', 0);
     result.errors[0].should.have.property('line', 1);
     result.errors[1].should.have.property('message', 'Invalid instruction');
     result.errors[1].should.have.property('line', 1);
+    result.errors[1].should.have.property('priority', 0);
     result.errors[2].should.have.property('message', 'Missing CMD');
+    result.errors[2].should.have.property('priority', 1);
     result.errors[2].should.not.have.property('line');
   });
 
@@ -91,6 +98,7 @@ describe('invalid dockerfiles', function () {
     result.errors.should.be.an.Array;
     result.errors.length.should.eql(1);
     result.errors[0].should.have.property('message', 'Missing CMD');
+    result.errors[0].should.have.property('priority', 1);
     result.errors[0].should.not.have.property('line');
   });
 
@@ -110,6 +118,7 @@ describe('invalid dockerfiles', function () {
     result.errors.length.should.eql(1);
     result.errors[0].should.have.property('message', 'Invalid instruction');
     result.errors[0].should.have.property('line', 3);
+    result.errors[0].should.have.property('priority', 0);
   });
 
   it('gives the correct line when there are blank lines', function () {
@@ -128,6 +137,7 @@ describe('invalid dockerfiles', function () {
     result.errors.length.should.eql(1);
     result.errors[0].should.have.property('message', 'Invalid instruction');
     result.errors[0].should.have.property('line', 3);
+    result.errors[0].should.have.property('priority', 0);
   });
 
   describe('empty', function () {
@@ -142,8 +152,10 @@ describe('invalid dockerfiles', function () {
       result.errors.should.be.an.Array;
       result.errors.length.should.eql(2);
       result.errors[0].should.have.property('message', 'Missing or misplaced FROM');
+      result.errors[0].should.have.property('priority', 0);
       result.errors[0].should.have.property('line', 1);
       result.errors[1].should.have.property('message', 'Missing CMD');
+      result.errors[1].should.have.property('priority', 1);
       result.errors[1].should.not.have.property('line');
     });
 
@@ -158,8 +170,10 @@ describe('invalid dockerfiles', function () {
       result.errors.should.be.an.Array;
       result.errors.length.should.eql(2);
       result.errors[0].should.have.property('message', 'Missing or misplaced FROM');
+      result.errors[0].should.have.property('priority', 0);
       result.errors[0].should.have.property('line', 1);
       result.errors[1].should.have.property('message', 'Missing CMD');
+      result.errors[1].should.have.property('priority', 1);
       result.errors[1].should.not.have.property('line');
     });
 
@@ -174,8 +188,10 @@ describe('invalid dockerfiles', function () {
       result.errors.should.be.an.Array;
       result.errors.length.should.eql(2);
       result.errors[0].should.have.property('message', 'Missing or misplaced FROM');
+      result.errors[0].should.have.property('priority', 0);
       result.errors[0].should.have.property('line', 1);
       result.errors[1].should.have.property('message', 'Missing CMD');
+      result.errors[1].should.have.property('priority', 1);
       result.errors[1].should.not.have.property('line');
     });
   });
@@ -191,6 +207,7 @@ describe('invalid dockerfiles', function () {
     result.errors.should.be.an.Array;
     result.errors.length.should.eql(1);
     result.errors[0].should.have.property('message', 'Invalid type');
+    result.errors[0].should.have.property('priority', 0);
     result.errors[0].should.not.have.property('line');
   });
 });

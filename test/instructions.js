@@ -12,6 +12,7 @@ function shouldBeValid (result) {
   result.should.have.property('valid', true);
   result.should.not.have.property('message');
   result.should.not.have.property('line');
+  result.should.not.have.property('priority');
 }
 
 function expectsSuccess (line) {
@@ -40,6 +41,7 @@ function expectsFailure (line) {
     result.errors.should.be.an.Array;
     result.errors.length.should.eql(1);
     result.errors[0].should.have.property('message', 'Bad parameters');
+    result.errors[0].should.have.property('priority', 1);
     result.errors[0].should.have.property('line', 2);
   };
 }
