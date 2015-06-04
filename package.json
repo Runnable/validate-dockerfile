@@ -27,9 +27,9 @@
   "license": "MIT",
   "devDependencies": {
     "callback-count": "^0.1.0",
-    "find": "^0.1.7",
+    "find": "^0.2.2",
     "istanbul": "^0.3.4",
     "mocha": "^2.0.1",
-    "should": "^4.0.4"
+    "should": "^6.0.3"
   }
 }
