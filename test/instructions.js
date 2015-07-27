@@ -162,6 +162,10 @@ describe('optional instructions', function () {
     it('Should take a standard EXPOSE', expectsSuccess(
       'EXPOSE 80'
     ));
+    
+    it('Should take an EXPOSE with an environment variable', expectsSuccess(
+      'EXPOSE $YOUR_PORT'
+    ));
 
     it('allows multiple ports', expectsSuccess(
       'EXPOSE 80 443'
@@ -181,6 +185,10 @@ describe('optional instructions', function () {
     it('allows multiple characters', expectsSuccess(
       'ENV tk_421 absent'
     ));
+    
+    it('allows references to other environment variables', expectsSuccess(
+      'ENV tk_421 $STATUS'
+    ));
 
     it('Should reject with no second parameter',  expectsFailure(
       'ENV stand_by'
@@ -190,6 +198,14 @@ describe('optional instructions', function () {
   describe('user', function () {
     it('Should take a standard USER', expectsSuccess(
       'USER not_r2'
+    ));
+    
+    it('Should take a USER with an environment variable with braces', expectsSuccess(
+      'USER ${DROID}'
+    ));
+    
+    it('Should take a USER with an environment variable without braces', expectsSuccess(
+      'USER $DROID'
     ));
 
     it('Rejects a username starting with a number', expectsFailure(
@@ -227,6 +243,14 @@ describe('optional instructions', function () {
     it('Allows ' + cmd + ' commands that reference homedir', expectsSuccess(
       cmd + ' ~/tie-fighter ~/hangar'
     ));
+    
+    it('Allows ' + cmd + ' commands including environment variables without braces', expectsSuccess(
+      cmd + ' ./lightsabers/$MY_COLOR/saber ~/hangar'
+    ));
+    
+    it('Allows ' + cmd + ' commands including environment variables with braces', expectsSuccess(
+      cmd + ' ./lightsabers/${MY_COLOR}/saber ~/hangar'
+    ));
 
     it('Rejects a malformed URL', expectsFailure(
       cmd + ' htp://superlaser.com /Alderaan'
@@ -261,6 +285,14 @@ describe('optional instructions', function () {
     it('Should take a VOLUME that references homedir', expectsSuccess(
       'VOLUME ~/1.72x10tothe7thpower'
     ));
+    
+    it('Should take a VOLUME containing an environment variable without braces', expectsSuccess(
+      'VOLUME ./SkyWalker/$MY_VAR/'
+    ));
+    
+    it('Should take a VOLUME containing an environment variable with braces', expectsSuccess(
+      'VOLUME ./SkyWalker/${MY_VAR}/'
+    ));
 
     it('Rejects improper JSON', expectsFailure(
       'VOLUME ["1.72'
@@ -274,6 +306,14 @@ describe('optional instructions', function () {
 
     it('Should take a WORKDIR that references homedir', expectsSuccess(
       'WORKDIR ~/Despayre'
+    ));
+    
+    it('Should take a WORKDIR containing an environment variable without braces', expectsSuccess(
+      'WORKDIR ./SkyWalker/$MY_VAR/'
+    ));
+    
+    it('Should take a WORKDIR containing an environment variable with braces', expectsSuccess(
+      'WORKDIR ./SkyWalker/${MY_VAR}/'
     ));
   });
 });
