@@ -25,6 +25,19 @@ var paramsRegexes = {
   workdir: /^~?[A-z0-9\/_.-]+$/
 };
 
+// filter environment variables: https://github.com/Runnable/validate-dockerfile/issues/17
+var envReplaces = {
+  expose: "123",
+  env: "abc",
+  user: "abc",
+  add: "abc",
+  copy: "abc",
+  volume: "abc",
+  workdir: "abc"
+};
+
+var envRegex = /\${?[a-zA-Z_]+[a-zA-Z0-9_]*(:(\+|-)[a-zA-Z0-9_]*)?}?/;
+
 function isDirValid (dir) {
   return path.normalize(dir).indexOf('..') !== 0;
 }
@@ -112,8 +125,9 @@ function validate(dockerfile) {
     instruction = instruction[0].trim().toLowerCase();
 
     var params = line.replace(instructionsRegex, '');
-    var validParams = paramsRegexes[instruction].test(params)
-      && (paramValidators[instruction] ? paramValidators[instruction](params) : true);
+    var filteredParams = params.replace(envRegex, envReplaces[instruction]);
+    var validParams = paramsRegexes[instruction].test(filteredParams)
+      && (paramValidators[instruction] ? paramValidators[instruction](filteredParams) : true);
 
     if (!validParams) {
       errors.push({
