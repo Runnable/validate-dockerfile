@@ -2,12 +2,12 @@
 
 require('should');
 
-var validateDockerfile = require('../')
-  , find = require('find')
-  , fs = require('fs')
-  , path = require('path')
-  , callbackCount = require('callback-count')
-  , EOL = require('os').EOL;
+var EOL = require('os').EOL;
+var callbackCount = require('callback-count');
+var find = require('find')
+var fs = require('fs');
+var path = require('path');
+var validateDockerfile = require('../');
 
 // dockerfiles tested here from https://github.com/kstaken/dockerfile-examples/tree/master/salt-minion
 describe('valid dockerfiles', function () {
@@ -26,6 +26,15 @@ describe('valid dockerfiles', function () {
         counter.next();
       });
     });
+  });
+
+  it('Should take a missing CMD w/ quiet enabled', function () {
+    var dockerfile = 'FROM Vader/Death-Star' + EOL;
+
+    var result = validateDockerfile(dockerfile, { quiet: true });
+
+    result.should.be.an.Object;
+    result.should.have.property('valid', true);
   });
 });
 
