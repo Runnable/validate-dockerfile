@@ -4,12 +4,20 @@
 
 var fs = require('fs');
 var path = require('path');
+var program = require('commander');
+var version = require('../package.json').version;
 var validateDockerfile = require('../');
 
 var fileLocation, dockerfile;
 
-if (process.argv.length > 2) {
-  fileLocation = process.argv[process.argv.length - 1];
+program
+  .version(version)
+  .usage('[options] [file]')
+  .option('-q, --quiet', 'Silence non-fatal notifications')
+  .parse(process.argv);
+
+if (program.args.length) {
+  fileLocation = program.args.shift();
 } else {
   fileLocation = path.join(process.cwd(), 'Dockerfile');
 }
@@ -21,8 +29,7 @@ try {
   process.exit(1);
 }
 
-
-var validation = validateDockerfile(dockerfile);
+var validation = validateDockerfile(dockerfile, { quiet: program.quiet });
 
 if (validation.valid) {
   console.log('Dockerfile looks good!');

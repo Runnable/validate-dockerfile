@@ -54,7 +54,8 @@ function finish (errors) {
   };
 }
 
-function validate(dockerfile) {
+function validate(dockerfile, opts) {
+  opts = opts || {};
   if (typeof dockerfile !== 'string') {
     return finish([{
       message: 'Invalid type',
@@ -115,7 +116,7 @@ function validate(dockerfile) {
     var validParams = paramsRegexes[instruction].test(params)
       && (paramValidators[instruction] ? paramValidators[instruction](params) : true);
 
-    if (!validParams) {
+    if (!validParams && !opts.quiet) {
       errors.push({
         message: 'Bad parameters',
         line: currentLine,
@@ -139,7 +140,7 @@ function validate(dockerfile) {
     });
   }
 
-  if (!hasCmd) {
+  if (!hasCmd && !opts.quiet) {
     errors.push({
       message: 'Missing CMD',
       priority: 1
