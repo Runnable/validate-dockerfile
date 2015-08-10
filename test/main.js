@@ -92,6 +92,23 @@ describe('invalid dockerfiles', function () {
     result.errors[0].should.have.property('priority', 1);
   });
 
+  it('should complain about bad input in an array', function () {
+    var dockerfile = ['FROM thyferra/bacta',
+      'CMD ["asdfasdf", ""]'
+    ].join(EOL);
+
+    var result = validateDockerfile(dockerfile);
+
+    result.should.be.an.Object;
+    result.should.have.property('valid', false);
+    result.should.have.property('errors');
+    result.errors.should.be.an.Array;
+    result.errors.length.should.eql(1);
+    result.errors[0].should.have.property('message', 'Malformed parameters');
+    result.errors[0].should.have.property('line', 2);
+    result.errors[0].should.have.property('priority', 1);
+  });
+
 
   it('should flunk a file with no FROM', function () {
     var dockerfile = 'Hi mom!';

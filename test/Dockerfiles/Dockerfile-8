@@ -18,6 +18,9 @@ RUN printf "[include]\nfiles = /var/www/Supervisorfile\n" >> /etc/supervisord.co
 
 ADD . /var/www
 
+ADD [".", "/var/www"]
+ADD ["/var/www", "/"]
+
 RUN cd /var/www ; npm install
 
 CMD ["/usr/local/bin/supervisord", "-n", "-c", "/etc/supervisord.conf"]
