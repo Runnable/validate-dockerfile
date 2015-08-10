@@ -19,11 +19,23 @@ var paramsRegexes = {
   cmd: /.+/,
   onbuild: /.+/,
   entrypoint: /.+/,
-  add: /^(~?[A-z0-9\/_.-]+|https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/\/=]*))\s~?[A-z0-9\/_.-]+$/,
-  copy: /^(~?[A-z0-9\/_.-]+|https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/\/=]*))\s~?[A-z0-9\/_.-]+$/,
+  add: /^((\[\s*\")?~?[A-z0-9\/_.-]+|https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/\/=]*))(\"\s*,\s*)?\s\"?~?[A-z0-9\/_.-]+(\"\s*\])?$/,
+  copy: /^((\[\s*\")?~?[A-z0-9\/_.-]+|https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/\/=]*))(\"\s*,\s*)?\s\"?~?[A-z0-9\/_.-]+(\"\s*\])?$/,
   volume: /^~?([A-z0-9\/_.-]+|\[(\s*)?("[A-z0-9\/_. -]+"(,\s*)?)+(\s*)?\])$/,
   workdir: /^~?[A-z0-9\/_.-]+$/
 };
+
+var arrayDisplayed = {
+  initialTestRegex:  /^\[\s*\"/,
+  regex: /(^\[\s*\")([^"]+(\"\s*,\s*\"))*[^"]+(\"\s*\]$)/,
+  isAllowed: {
+    add: true,
+    cmd: true,
+    copy: true,
+    volume: true
+  }
+};
+
 
 function isDirValid (dir) {
   return path.normalize(dir).indexOf('..') !== 0;
@@ -123,6 +135,15 @@ function validate(dockerfile, opts) {
         priority: 1
       });
       return false;
+    } else if (!opts.quiet && arrayDisplayed.isAllowed[instruction] &&
+        arrayDisplayed.initialTestRegex.test(params) && !arrayDisplayed.regex.test(params)) {
+      // Run the initial test to make sure the array is present first.  Then check that the array
+      // is valid
+      errors.push({
+        message: 'Malformed parameters',
+        line: currentLine,
+        priority: 1
+      });
     }
     if (instruction === 'cmd') {
       hasCmd = true;
