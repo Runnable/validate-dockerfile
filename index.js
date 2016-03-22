@@ -13,7 +13,7 @@ var paramsRegexes = {
   from: /^[a-z0-9.\/_-]+(:[a-z0-9._-]+)?$/,
   maintainer: /.+/,
   expose: /^[0-9]+([0-9\s]+)?$/,
-  env: /^[a-zA-Z_]+[a-zA-Z0-9_]* .+$/,
+  env: /^(([a-zA-Z_]+[a-zA-Z0-9_]* \S+$)|(( )?[a-zA-Z_]+[a-zA-Z0-9_]*=\S+)+)$/,
   user: /^[a-z_][a-z0-9_]{0,30}$/,
   run: /.+/,
   cmd: /.+/,
