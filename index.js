@@ -98,6 +98,12 @@ function validate(dockerfile, opts) {
       return;
     }
 
+    // We can only validate sane line lengths, if the line is too long we
+    // don't want to crash the process validating it
+    if (opts.maxLineLength && line.length > opts.maxLineLength) {
+      return;
+    }
+
     // Whitespace on the ends will not break Dockerfile (see #13)
     line = line.trim();
 
