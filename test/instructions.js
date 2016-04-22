@@ -173,6 +173,29 @@ describe('optional instructions', function () {
     ));
   });
 
+  describe('label', function () {
+    it('Should take a standard LABEL', expectsSuccess(
+      'LABEL battlestation=armed'
+    ));
+
+    it('Should take a multiline LABEL', expectsSuccess(
+      'LABEL battlestation="fully armed\
+to the teeth"'
+    ));
+
+    it('Allows multiple LABEL', expectsSuccess(
+      'LABEL battlestation="fully armed" "exhaust port"="fully open"'
+    ));
+
+    it('Should reject with faulty quoting',  expectsFailure(
+      'LABEL "stand by=me'
+    ));
+
+    it('Should reject with no second parameter',  expectsFailure(
+      'LABEL stand by'
+    ));
+  });
+
   describe('env', function () {
     it('Should take a standard ENV', expectsSuccess(
       'ENV battlestation fully_armed'

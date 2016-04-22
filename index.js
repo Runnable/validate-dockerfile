@@ -3,7 +3,7 @@
 var path = require('path');
 var EOL = require('os').EOL;
 
-var instructionsRegex = /^(CMD|FROM|MAINTAINER|RUN|EXPOSE|ENV|ADD|ENTRYPOINT|VOLUME|USER|WORKDIR|ONBUILD|COPY)(\s*)/i;
+var instructionsRegex = /^(LABEL|CMD|FROM|MAINTAINER|RUN|EXPOSE|ENV|ADD|ENTRYPOINT|VOLUME|USER|WORKDIR|ONBUILD|COPY)(\s*)/i;
 
 // Some regexes sourced from:
 //   http://stackoverflow.com/a/2821201/1216976
@@ -14,6 +14,7 @@ var paramsRegexes = {
   maintainer: /.+/,
   expose: /^[0-9]+([0-9\s]+)?$/,
   env: /^(([a-zA-Z_]+[a-zA-Z0-9_]* \S+$)|(( )?[a-zA-Z_]+[a-zA-Z0-9_]*=\S+)+)$/,
+  label: /^(( )?(")?([^"\\]|\\.)*\3=(")?([^"\\]|\\.)*\5)+$/,
   user: /^[a-z_][a-z0-9_]{0,30}$/,
   run: /.+/,
   cmd: /.+/,
